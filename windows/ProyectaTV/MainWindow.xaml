@@ -1,0 +1,356 @@
+<Window x:Class="ProyectaTV.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ProyectaTV" Width="1020" Height="720"
+        WindowStartupLocation="CenterScreen" WindowStyle="None"
+        AllowsTransparency="True" Background="Transparent" ResizeMode="CanMinimize"
+        FontFamily="Segoe UI">
+
+    <Window.Resources>
+        <LinearGradientBrush x:Key="NeonBrush" StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#00E5FF" Offset="0"/>
+            <GradientStop Color="#FF3D9A" Offset="1"/>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="StopBrush" StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#FF3D3D" Offset="0"/>
+            <GradientStop Color="#FF8C42" Offset="1"/>
+        </LinearGradientBrush>
+
+        <Style x:Key="NeonButton" TargetType="Button">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Padding" Value="18,11"/>
+            <Setter Property="Background" Value="{StaticResource NeonBrush}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="bd" Background="{TemplateBinding Background}" CornerRadius="14"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="bd" Property="Opacity" Value="0.85"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="bd" Property="Opacity" Value="0.35"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="IconBtn" TargetType="Button">
+            <Setter Property="Foreground" Value="#C9D1F5"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Width" Value="40"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="bd" Background="Transparent" CornerRadius="8">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="bd" Property="Background" Value="#33FFFFFF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="Chip" TargetType="RadioButton">
+            <Setter Property="Foreground" Value="#C9D1F5"/>
+            <Setter Property="Margin" Value="0,0,8,8"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Border x:Name="bd" CornerRadius="10" Background="#1B2450" BorderBrush="#2A3262"
+                                BorderThickness="1" Padding="14,8">
+                            <ContentPresenter HorizontalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="bd" Property="BorderBrush" Value="#FF3D9A"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="bd" Property="BorderBrush" Value="#00E5FF"/>
+                                <Setter TargetName="bd" Property="Background" Value="#12395A"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="Card" TargetType="RadioButton">
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Border x:Name="bd" CornerRadius="16" Background="#1B2450" BorderBrush="#2A3262"
+                                BorderThickness="2" Padding="16">
+                            <ContentPresenter/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="bd" Property="BorderBrush" Value="#FF3D9A"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="bd" Property="BorderBrush" Value="#00E5FF"/>
+                                <Setter TargetName="bd" Property="Background" Value="#12395A"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="Switch" TargetType="CheckBox">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="CheckBox">
+                        <StackPanel Orientation="Horizontal" Background="Transparent">
+                            <Grid Width="46" Height="24" Margin="0,0,12,0">
+                                <Border x:Name="track" CornerRadius="12" Background="#2A3262"/>
+                                <Ellipse x:Name="knob" Width="18" Height="18" Fill="White"
+                                         HorizontalAlignment="Left" Margin="3,0,0,0"/>
+                            </Grid>
+                            <ContentPresenter VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="track" Property="Background" Value="#00B8D4"/>
+                                <Setter TargetName="knob" Property="HorizontalAlignment" Value="Right"/>
+                                <Setter TargetName="knob" Property="Margin" Value="0,0,3,0"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="TvItem" TargetType="ListBoxItem">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border x:Name="bd" CornerRadius="12" Background="#1B2450" BorderBrush="#2A3262"
+                                BorderThickness="1" Padding="12,10" Margin="0,0,0,8">
+                            <ContentPresenter/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="bd" Property="BorderBrush" Value="#FF3D9A"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="bd" Property="BorderBrush" Value="#00E5FF"/>
+                                <Setter TargetName="bd" Property="Background" Value="#12395A"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="Background" Value="#1B2450"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="CaretBrush" Value="White"/>
+            <Setter Property="BorderBrush" Value="#2A3262"/>
+            <Setter Property="Padding" Value="10,8"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+
+        <Style x:Key="SectionTitle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="19"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="0,0,0,4"/>
+        </Style>
+
+        <Style x:Key="Hint" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#8D97C4"/>
+            <Setter Property="FontSize" Value="12.5"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+
+        <Style x:Key="Label" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#C9D1F5"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Margin" Value="0,16,0,8"/>
+        </Style>
+    </Window.Resources>
+
+    <Border CornerRadius="22" BorderThickness="1" BorderBrush="#33FFFFFF" Margin="10">
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#0A0E22" Offset="0"/>
+                <GradientStop Color="#1A0F3D" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.Background>
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="26" ShadowDepth="0" Opacity="0.6"/>
+        </Border.Effect>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Cabecera -->
+            <Grid Grid.Row="0" Margin="28,20,16,8" Background="Transparent" MouseLeftButtonDown="TitleBar_MouseDown">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Proyecta" FontSize="30" FontWeight="ExtraBold" Foreground="White"/>
+                    <TextBlock Text="TV" FontSize="30" FontWeight="ExtraBold" Foreground="{StaticResource NeonBrush}"/>
+                    <TextBlock Text="Tu escritorio de Windows en el Android TV" VerticalAlignment="Bottom"
+                               Margin="14,0,0,6" Foreground="#8D97C4" FontSize="13"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
+                    <Button Style="{StaticResource IconBtn}" Content="—" Click="Min_Click"/>
+                    <Button Style="{StaticResource IconBtn}" Content="✕" Click="Close_Click"/>
+                </StackPanel>
+            </Grid>
+
+            <!-- Cuerpo -->
+            <Grid Grid.Row="1" Margin="20,6,20,6">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="340"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Paso 1: conexión -->
+                <Border Grid.Column="0" Background="#CC12172E" CornerRadius="18" Padding="20" Margin="0,0,10,0"
+                        BorderBrush="#22FFFFFF" BorderThickness="1">
+                    <StackPanel>
+                        <TextBlock Text="1  Conecta tu TV" Style="{StaticResource SectionTitle}"/>
+                        <TextBlock Style="{StaticResource Hint}" Margin="0,0,0,12"
+                                   Text="Abre la app en el Android TV. Aparecerá aquí en unos segundos."/>
+
+                        <ListBox x:Name="LstTv" Height="190" Background="Transparent" BorderThickness="0"
+                                 ItemContainerStyle="{StaticResource TvItem}"
+                                 SelectionChanged="LstTv_SelectionChanged">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Name}" Foreground="White" FontWeight="SemiBold" FontSize="15"/>
+                                        <TextBlock Text="{Binding Ip}" Foreground="#8D97C4" FontSize="12"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+
+                        <TextBlock Text="¿No aparece? Escribe la IP que muestra el TV" Style="{StaticResource Label}"/>
+                        <TextBox x:Name="TxtIp" MaxLength="15"/>
+
+                        <Button x:Name="BtnConnect" Style="{StaticResource NeonButton}" Content="Conectar"
+                                Margin="0,14,0,0" FontSize="15" Click="BtnConnect_Click"/>
+
+                        <TextBlock x:Name="TxtStatus" Style="{StaticResource Hint}" Margin="0,12,0,0"
+                                   Text="Sin conexión"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Paso 2: vista -->
+                <Border Grid.Column="1" Background="#CC12172E" CornerRadius="18" Padding="20,20,8,12" Margin="10,0,0,0"
+                        BorderBrush="#22FFFFFF" BorderThickness="1">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel Margin="0,0,12,0">
+                            <TextBlock Text="2  Elige la vista" Style="{StaticResource SectionTitle}"/>
+                            <TextBlock Style="{StaticResource Hint}" Margin="0,0,0,12"
+                                       Text="Cambia entre vista horizontal y vertical en cualquier momento, incluso proyectando."/>
+
+                            <UniformGrid Columns="2">
+                                <RadioButton x:Name="RbHoriz" GroupName="orient" IsChecked="True"
+                                             Style="{StaticResource Card}" Margin="0,0,8,0" Checked="Orient_Checked">
+                                    <StackPanel>
+                                        <TextBlock Text="🖥" FontSize="30"/>
+                                        <TextBlock Text="Horizontal" Foreground="White" FontWeight="Bold" FontSize="16" Margin="0,6,0,2"/>
+                                        <TextBlock Text="Todo el escritorio, completo y a escala." Style="{StaticResource Hint}"/>
+                                    </StackPanel>
+                                </RadioButton>
+                                <RadioButton x:Name="RbVert" GroupName="orient"
+                                             Style="{StaticResource Card}" Margin="8,0,0,0" Checked="Orient_Checked">
+                                    <StackPanel>
+                                        <TextBlock Text="📱" FontSize="30"/>
+                                        <TextBlock Text="Vertical" Foreground="White" FontWeight="Bold" FontSize="16" Margin="0,6,0,2"/>
+                                        <TextBlock Text="Para el TV de pie, con zoom opcional." Style="{StaticResource Hint}"/>
+                                    </StackPanel>
+                                </RadioButton>
+                            </UniformGrid>
+
+                            <Border x:Name="PnlVertical" Visibility="Collapsed" Background="#1B2450" CornerRadius="14"
+                                    Padding="16" Margin="0,12,0,0">
+                                <StackPanel>
+                                    <CheckBox x:Name="ChkFull" Style="{StaticResource Switch}" IsChecked="True"
+                                              Content="Pantalla completa con zoom enfocado en el mouse"
+                                              Checked="Opt_Changed" Unchecked="Opt_Changed"/>
+                                    <StackPanel x:Name="PnlZoom" Margin="0,14,0,0">
+                                        <TextBlock x:Name="TxtZoom" Text="Zoom: 2.0×" Foreground="#C9D1F5" FontSize="13"/>
+                                        <Slider x:Name="SldZoom" Minimum="1" Maximum="4" Value="2" TickFrequency="0.25"
+                                                IsSnapToTickEnabled="True" Margin="0,6,0,0" ValueChanged="Zoom_Changed"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+
+                            <TextBlock Text="Giro de la imagen en el TV" Style="{StaticResource Label}"/>
+                            <WrapPanel>
+                                <RadioButton x:Name="RbRot0" GroupName="rot" Tag="0" Content="0°" Style="{StaticResource Chip}" Checked="Rot_Checked"/>
+                                <RadioButton x:Name="RbRot1" GroupName="rot" Tag="1" Content="90° horario" Style="{StaticResource Chip}" IsChecked="True" Checked="Rot_Checked"/>
+                                <RadioButton x:Name="RbRot2" GroupName="rot" Tag="2" Content="180°" Style="{StaticResource Chip}" Checked="Rot_Checked"/>
+                                <RadioButton x:Name="RbRot3" GroupName="rot" Tag="3" Content="90° antihorario" Style="{StaticResource Chip}" Checked="Rot_Checked"/>
+                            </WrapPanel>
+                            <TextBlock Style="{StaticResource Hint}" Margin="0,-2,0,0"
+                                       Text="Si la imagen se ve de lado o al revés en el TV, prueba otro giro."/>
+
+                            <TextBlock Text="Calidad" Style="{StaticResource Label}"/>
+                            <WrapPanel>
+                                <RadioButton x:Name="RbQ1" GroupName="q" Content="Baja (más fluido)" Style="{StaticResource Chip}" Checked="Opt_Changed"/>
+                                <RadioButton x:Name="RbQ2" GroupName="q" Content="Media" Style="{StaticResource Chip}" IsChecked="True" Checked="Opt_Changed"/>
+                                <RadioButton x:Name="RbQ3" GroupName="q" Content="Alta (más nítido)" Style="{StaticResource Chip}" Checked="Opt_Changed"/>
+                            </WrapPanel>
+
+                            <TextBlock Text="Fotogramas por segundo" Style="{StaticResource Label}"/>
+                            <WrapPanel>
+                                <RadioButton x:Name="RbF15" GroupName="f" Content="15" Style="{StaticResource Chip}" Checked="Opt_Changed"/>
+                                <RadioButton x:Name="RbF24" GroupName="f" Content="24" Style="{StaticResource Chip}" IsChecked="True" Checked="Opt_Changed"/>
+                                <RadioButton x:Name="RbF30" GroupName="f" Content="30" Style="{StaticResource Chip}" Checked="Opt_Changed"/>
+                            </WrapPanel>
+
+                            <CheckBox x:Name="ChkCursor" Style="{StaticResource Switch}" IsChecked="True"
+                                      Content="Mostrar el cursor del mouse" Margin="0,10,0,4"
+                                      Checked="Opt_Changed" Unchecked="Opt_Changed"/>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Border>
+            </Grid>
+
+            <!-- Pie -->
+            <Grid Grid.Row="2" Margin="28,8,28,22">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock x:Name="TxtStats" Text="Sin proyección" Foreground="#C9D1F5" FontSize="14"/>
+                    <TextBlock Text="El PC y el TV deben estar en la misma red Wi-Fi." Foreground="#6C77A6" FontSize="12" Margin="0,2,0,0"/>
+                </StackPanel>
+                <Button x:Name="BtnStart" Grid.Column="1" Style="{StaticResource NeonButton}"
+                        Content="▶  Proyectar escritorio" FontSize="17" Padding="34,14"
+                        IsEnabled="False" Click="BtnStart_Click"/>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>
